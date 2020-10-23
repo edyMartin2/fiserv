@@ -7,8 +7,11 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.security.Key;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -30,7 +33,7 @@ public class RestClient {
     }
 
     public void get(String url,@Nullable JSONObject data, AsyncHttpResponseHandler responseHandler) throws  Exception{
-        String jsonString = data==null?"":data.toString();
+        String jsonString = data == null?"":data.toString();
         this.setHeaders(jsonString);
         client.get(getAbsoluteUrl(url),null,responseHandler);
     }
@@ -51,14 +54,13 @@ public class RestClient {
     }
 
     private void setHeaders(String jsonString) throws Exception{
+
         client.removeAllHeaders();
         client.addHeader("Content-Type","application/json");
-        for(Object entry : createMessageSignature(jsonString).entrySet()) {
+        String msg = API_KEY + UUID.randomUUID() +System.currentTimeMillis() + jsonString;
+        client.addHeader("Message-Signature",hash_hmac(msg,API_SECRET));
 
-            String key = entry.toString();
-            String value = entry.toString();
-            client.addHeader(key,value);
-        }
+
     }
 
     private static Map  createMessageSignature(String payload) throws Exception{

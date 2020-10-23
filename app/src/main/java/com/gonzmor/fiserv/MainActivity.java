@@ -1,5 +1,6 @@
 package com.gonzmor.fiserv;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -42,17 +43,16 @@ public class MainActivity extends AppCompatActivity {
     ListView mylist ;
     ArrayList<String> list = new ArrayList<>();
     ArrayAdapter adapter;
-    Button btn ;
+    TextView btn ;
+    Button btn1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,list);
-        mylist = findViewById(R.id.mylist);
-        mylist.setAdapter(adapter);
 
-        btn = findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener(){
+        btn1 = findViewById(R.id.btn1);
+        btn = findViewById(R.id.data);
+        btn1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 //create instance
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 RestClient cliente = new RestClient(getApplicationContext());
 
                 try{
-                    Toast.makeText(MainActivity.this, "sssss", Toast.LENGTH_SHORT).show();
+
                     //Build JSON
                     JSONObject saleTransaction = new JSONObject();
                     saleTransaction.put("requestType","PaymentCardSaleTransaction");
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     saleTransaction.put("paymentMethod",
                             (new JSONObject()).put("paymentCard",
                                     (new JSONObject())
-                                            .put("number","5579xxxxxxxx12")
+                                            .put("number","493136000476724")
                                             .put("securityCode","123")
                                             .put("expiryDate",
                                                     (new JSONObject())
@@ -83,36 +83,21 @@ public class MainActivity extends AppCompatActivity {
                     );
                     //send POST HTTP REQUEST
                     cliente.post("payments", saleTransaction, new JsonHttpResponseHandler(){
-
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        @Override
+                        public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
                             super.onSuccess(statusCode, (cz.msebera.android.httpclient.Header[]) headers, response);
                             //handle success when response is a single object
-                            Toast.makeText(MainActivity.this, "err4", Toast.LENGTH_SHORT).show();
+                            btn.setText(response.toString());
+
                             Log.d("SuccessObj", response.toString());
                         }
 
-
-                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                            super.onSuccess(statusCode, (cz.msebera.android.httpclient.Header[]) headers, response);
-                            //handle success when response is an array of objects
-                            Toast.makeText(MainActivity.this, "er3", Toast.LENGTH_SHORT).show();
-                            Log.d("SuccessArr", response.toString());
-                        }
-
-
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                        @Override
+                        public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             super.onFailure(statusCode, (cz.msebera.android.httpclient.Header[]) headers, throwable, errorResponse);
                             //handle error when response is an array of objects
-                            Toast.makeText(MainActivity.this, "err2", Toast.LENGTH_SHORT).show();
-                            Log.d("ErrorArr", errorResponse.toString());
-                        }
+                            btn.setText(errorResponse.toString());
 
-
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            super.onFailure(statusCode, (cz.msebera.android.httpclient.Header[]) headers, throwable, errorResponse);
-                            //handle success when response is a single object
-                            Toast.makeText(MainActivity.this, "err1", Toast.LENGTH_SHORT).show();
-                            Log.d("ErrorObj", errorResponse.toString());
                         }
                     });
                     //Toast.makeText(MainActivity.this, "sssss", Toast.LENGTH_SHORT).show();

@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.security.Key;
+import java.security.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -54,10 +55,14 @@ public class RestClient {
     }
 
     private void setHeaders(String jsonString) throws Exception{
-
+        String hash = UUID.randomUUID().toString();
+        long time = System.currentTimeMillis();
         client.removeAllHeaders();
         client.addHeader("Content-Type","application/json");
-        String msg = API_KEY + UUID.randomUUID() +System.currentTimeMillis() + jsonString;
+        client.addHeader("Client-Request-Id",hash);
+        client.addHeader("Api-Key",API_KEY);
+        client.addHeader("Timestamp",time +"");
+        String msg = API_KEY+ hash + time + jsonString;
         client.addHeader("Message-Signature",hash_hmac(msg,API_SECRET));
 
 

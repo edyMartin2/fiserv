@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/Scann" android:enabled="true" android:title="Scanner"></item>
+    <item android:id="@+id/buy" android:enabled="true" android:title="Buy"></item>
+</menu>

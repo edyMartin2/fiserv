@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+
 
 public class controllerWallet {
     SQLiteDatabase db = null;
@@ -33,5 +35,19 @@ public class controllerWallet {
         cv.put("Date", date);
         db.insert("wallet", null, cv);
 
+    }
+
+    public ArrayList<String> getCards(){
+        ArrayList <String> cards = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("", null);
+
+        if (cursor.moveToFirst()){
+            do {
+                cards.add(cursor.getString(1));
+            } while (cursor.moveToNext());
+        }
+
+        return  cards;
     }
 }

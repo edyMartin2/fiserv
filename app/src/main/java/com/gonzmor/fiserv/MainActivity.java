@@ -25,15 +25,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager view_pager;
     private TabLayout tab_layout;
-    public ListView lvCards;
-    public FloatingActionButton btnAddCard ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         view_pager = findViewById(R.id.view_pager);
         tab_layout = findViewById(R.id.tab_layout);
-        lvCards = findViewById(R.id.cards);
+
 
 
         scann scann = new scann();
@@ -52,15 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //este segmento es para obtener las targetas de la db
-    public void fillinCard (){
-        ArrayList <String> items = new ArrayList<>();
-        controllerWallet controller = new controllerWallet(this);
-        items = controller.getCards();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        lvCards.setAdapter(adapter);
 
-    }
 
     //este segmento es para llenar las tabs
     private class ViewPagerAdapter extends FragmentPagerAdapter {

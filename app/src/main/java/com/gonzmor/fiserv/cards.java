@@ -1,15 +1,19 @@
 package com.gonzmor.fiserv;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.gonzmor.fiserv.databaseAll.*;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,13 +21,13 @@ import android.widget.Toast;
  * create an instance of this fragment.
  */
 public class cards extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    //mis complementos
+    private FloatingActionButton btnAdd;
+    private TextView hi ;
+    ListView lvCards ;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -38,7 +42,6 @@ public class cards extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +50,43 @@ public class cards extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+
+
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cards, container, false);
+        View root = inflater.inflate(R.layout.fragment_cards, container, false);
+        final Context context = root.getContext();
+
+        lvCards = root.findViewById(R.id.cards);
+        lvCards.setAdapter(fillinCard(context));
+
+
+        btnAdd = root.findViewById(R.id.addCar);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), addCard.class);
+                startActivity(intent);
+            }
+        });
+
+        return root;
     }
+
+    //este segmento es para obtener las targetas de la db
+    public ArrayAdapter<String> fillinCard (Context context){
+        ArrayList<String> items = new ArrayList<>();
+        controllerWallet controller = new controllerWallet(context);
+        items = controller.getCards();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, items);
+        if (items != null ){
+           return  adapter;
+        } else {
+            return null;
+        }
+
+    }
+
 }

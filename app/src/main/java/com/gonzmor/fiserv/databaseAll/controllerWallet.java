@@ -33,19 +33,22 @@ public class controllerWallet {
         cv.put("Number", number);
         cv.put("CVV", cvv);
         cv.put("Date", date);
-        db.insert("wallet", null, cv);
+
+        db.insert("cards", null, cv);
 
     }
 
     public ArrayList<String> getCards(){
         ArrayList <String> cards = new ArrayList<>();
 
-        Cursor cursor = db.rawQuery("", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM cards", null);
 
         if (cursor.moveToFirst()){
             do {
                 cards.add(cursor.getString(1));
             } while (cursor.moveToNext());
+        } else{
+            cards = null;
         }
 
         return  cards;

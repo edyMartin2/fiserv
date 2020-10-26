@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".addCard"
     >
-    //campo de numero
+    //campo de número
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Numero"
         android:layout_width="300dp"
@@ -16,9 +16,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:endIconMode="password_toggle"
-        app:helperText="Min 16 digitos"
+        app:helperText="Min. 16 dígitos"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Numero de targeta"
+        android:hint="Número de tarjeta"
         >
 
         <com.google.android.material.textfield.TextInputEditText

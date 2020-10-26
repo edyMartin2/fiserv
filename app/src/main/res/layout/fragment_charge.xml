@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        //campo de imoprte
+        //campo de importe
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/Importe"
@@ -36,7 +36,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        //boton que genera qr
+        //botón que genera QR
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGenerate"

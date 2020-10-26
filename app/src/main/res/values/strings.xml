@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">fiserv</string>
+    <string name="cvv">cvv</string>
+    <string name="number">Numero de targeta</string>
+    <string name="date">mm/dd</string>
+    <string name="btnAdd">Añadir</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
